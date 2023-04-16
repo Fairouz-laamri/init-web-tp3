@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Résultats du semestre</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style type="text/css">
+	
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1f1f1;
+}
+
+
+h1.result {
+	margin: 0;
+	padding: 20px;
+	font-size: 2em;
+	font-weight: bold;
+	text-shadow: 1px 1px #555;
+	background-color: #d5562;
+	color: #FCF;
+	text-align: center;
+}
+
+/* Style pour le sous-titre */
+h2 {
+  margin: 20px 0 10px;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+
+table.tab {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+
+td:last-child {
+  font-weight: bold;
+  color: #AA1517;
+}
+
+/* Style pour les résultats "admis" */
+tr td:last-child:contains("Admis") {
+  background-color: #c5e1a5;
+}
+
+
+tr td:last-child:contains("Non admis") {
+  background-color: #ffcdd2;
+}
+
+.result {
+    text-align: center;
+    color: #AA1517;
+    background-image: -webkit-linear-gradient(270deg,rgba(200,216,36,1.00) 0%,rgba(217,101,101,1.00) 100%);
+    background-image: -moz-linear-gradient(270deg,rgba(200,216,36,1.00) 0%,rgba(217,101,101,1.00) 100%);
+    background-image: -o-linear-gradient(270deg,rgba(200,216,36,1.00) 0%,rgba(217,101,101,1.00) 100%);
+    background-image: linear-gradient(180deg,rgba(200,216,36,1.00) 0%,rgba(217,101,101,1.00) 100%);
+}
+.module {
+}
+.moy {
+}
+.coeff {
+}
+.cre {
+}
+.not {
+}
+.res {
+}
+</style>
+  </head>
+<body>
+    <h1 align="center">Résultats du semestre</h1>
+    <p><img src="../ramadan.png" alt="K" width="216" height="108" align="middle"></p>
+<table class="tab" border="5">
+    <thead>
+      <tr>
+        <th class="module"><table class="tab" border="5">
+          <thead>
+            <tr>
+              <th bgcolor="#006699" class="module">Module</th>
+              <th bgcolor="#009966" class="coeff">Coefficient</th>
+              <th bgcolor="#999966" class="cre">Crédits</th>
+              <th bgcolor="#666699" class="not">Note</th>
+              <th bgcolor="#FFCC33" class="res">Résultat</th>
+            </tr>
+          </thead>
+          <tbody id="resultats">
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4"><strong class="moy">Moyenne générale:</strong></td>
+              <td id="moyenne"></td>
+            </tr>
+          </tfoot>
+        </table></th>
+      </tr>
+    </thead>
+    </table>
+    <p>Somme des coefficients : <span id="sommeCoeff"></span></p>
+<p>Somme des crédits : <span id="sommeCredits"></span></p>
+<p>Moyenne : <span id="moyennee"></span></p>
+<p>Mention : <span id="mention"></span></p>
+	  
+<script>
+		
+  alert("cette page permet detablir le bulletin de note dun etudiant !");
+      
+      let nom = prompt("Entrez votre nom:");
+      let prenom = prompt("Entrez votre prénom:");
+		
+
+let titre = $("<h2>").text("Résultats de " + prenom + " " + nom);
+$("body").append(titre);
+		
+      
+      let nbModules = parseInt(prompt("Entrez le nombre de modules:"));
+
+      
+      let totalCoeff = 0;
+      let totalCredits = 0;
+      let totalNotes = 0;
+
+     
+      let modules = [];
+
+     
+      for(let i = 1; i <= nbModules; i++) {
+        let module = {};
+        module.nom = prompt("Entrez le nom du module " + i + ":");
+        module.coeff = parseFloat(prompt("Entrez le coefficient du module " + i + ":"));
+        module.credits = parseInt(prompt("Entrez le nombre de crédits du module " + i + ":"));
+        module.note = parseFloat(prompt("Entrez la note d'examen du module " + i + ":"));
+
+        totalCoeff += module.coeff;
+        totalCredits += module.credits;
+        totalNotes += module.coeff * module.note;
+
+        modules.push(module);
+      }
+
+     
+      let moyenne = totalNotes / totalCoeff;
+
+      
+      $("#moyenne").text(moyenne.toFixed(2));
+		
+      $("#sommeCoeff").text(totalCoeff.toFixed(2));
+
+     
+      $("#sommeCredits").text(totalCredits.toFixed(2));
+
+     
+      $("#moyennee").text(moyenne.toFixed(2));
+
+      
+      let mention = moyenne >= 10 ? "Admis" : "Ajourné";
+      $("#mention").text(mention);
+
+      
+      for(let i = 0; i < nbModules; i++) {
+        let module = modules[i];
+        let resultat = module.note >= 10 ? "Admis" : "Non admis";
+        let row = $("<tr>")
+          .append($("<td>").text(module.nom))
+          .append($("<td>").text(module.coeff))
+          .append($("<td>").text(module.credits))
+          .append($("<td>").text(module.note))
+          .append($("<td>").text(resultat));
+        $("#resultats").append(row);
+      }
+
+    </script>
+</body>
+</html>
